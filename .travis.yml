@@ -13,3 +13,8 @@ jobs:
     - stage: build
       script:
         - mvn clean verify
+
+    - stage: publish
+      if: branch = master AND type = push AND fork = false
+      script:
+        - bash deploy-to-maven-central.sh
