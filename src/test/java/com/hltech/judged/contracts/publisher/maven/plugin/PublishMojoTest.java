@@ -48,9 +48,6 @@ public class PublishMojoTest extends BDDMockito {
         PublishMojo mojo = (PublishMojo) rule.lookupMojo("publish", testPom);
         assertNotNull(mojo);
 
-        System.setProperty("vauntLocation", "src/test/resources/vaunt");
-        System.setProperty("pactsLocation", "src/test/resources/pacts");
-
         PowerMockito.whenNew(PublisherAdapter.class).withNoArguments().thenReturn(publisherMock);
         mojo.execute();
 
