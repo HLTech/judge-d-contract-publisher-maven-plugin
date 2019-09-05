@@ -8,6 +8,8 @@
     <packaging>maven-plugin</packaging>
 
     <name>judge-d-contract-publisher-maven-plugin</name>
+    <description>Maven plugin for contract publishing</description>
+    <url>https://github.com/HLTech/judge-d-contract-publisher-maven-plugin</url>
 
     <licenses>
         <license>
