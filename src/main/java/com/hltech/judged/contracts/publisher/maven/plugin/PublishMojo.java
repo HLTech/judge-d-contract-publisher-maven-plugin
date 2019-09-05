@@ -1,6 +1,5 @@
 package com.hltech.judged.contracts.publisher.maven.plugin;
 
-import com.google.common.collect.ImmutableSet;
 import org.apache.maven.plugin.AbstractMojo;
 import org.apache.maven.plugin.MojoExecutionException;
 import org.apache.maven.plugins.annotations.Component;
@@ -10,20 +9,11 @@ import org.apache.maven.project.MavenProject;
 
 import java.net.URL;
 import java.util.Arrays;
-import java.util.Map;
-import java.util.Set;
 
-import static java.util.function.Function.identity;
-import static java.util.stream.Collectors.toMap;
+import static com.google.common.collect.ImmutableMap.of;
 
 @Mojo(name = "publish")
 public class PublishMojo extends AbstractMojo {
-
-    private static final Set<String> SUPPORTED_EXTRA_PROPERTIES = new ImmutableSet.Builder<String>()
-            .add("swaggerLocation")
-            .add("pactsLocation")
-            .add("vauntLocation")
-            .build();
 
     @Component
     private MavenProject project;
@@ -37,6 +27,15 @@ public class PublishMojo extends AbstractMojo {
     @Parameter(property = "publish.expectations")
     private String[] expectations;
 
+    @Parameter(property = "publish.swaggerLocation")
+    private String swaggerLocation;
+
+    @Parameter(property = "publish.pactsLocation")
+    private String pactsLocation;
+
+    @Parameter(property = "publish.vauntLocation")
+    private String vauntLocation;
+
     @Override
     public void execute() throws MojoExecutionException {
         getLog().info("serviceName=" + project.getArtifactId());
@@ -45,13 +44,17 @@ public class PublishMojo extends AbstractMojo {
         getLog().info("capabilities=" + Arrays.toString(capabilities));
         getLog().info("expectations=" + Arrays.toString(expectations));
 
-        PublisherAdapter publisher = new PublisherAdapter();
-        publisher.publish(project, judgeDLocation, capabilities, expectations, extraPropertiesMap());
+        new PublisherAdapter().publish(
+                project,
+                judgeDLocation,
+                capabilities,
+                expectations,
+                of(
+                        "swaggerLocation", swaggerLocation,
+                        "pactsLocation", pactsLocation,
+                        "vauntLocation", vauntLocation
+                )
+        );
     }
 
-    private Map<String, String> extraPropertiesMap() {
-        return SUPPORTED_EXTRA_PROPERTIES.stream()
-                .filter(prop -> System.getProperty(prop) != null)
-                .collect(toMap(identity(), System::getProperty));
-    }
 }
