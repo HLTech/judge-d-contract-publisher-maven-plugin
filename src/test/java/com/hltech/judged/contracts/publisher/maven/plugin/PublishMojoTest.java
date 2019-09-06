@@ -17,6 +17,7 @@ import org.powermock.modules.junit4.PowerMockRunner;
 
 import java.io.File;
 import java.net.URL;
+import java.util.Optional;
 
 import static org.hamcrest.CoreMatchers.equalTo;
 import static org.hamcrest.Matchers.allOf;
@@ -59,8 +60,9 @@ public class PublishMojoTest extends BDDMockito {
                 MockitoHamcrest.argThat(hasItemInArray("jms")),
                 MockitoHamcrest.argThat(hasItemInArray("rest")),
                 MockitoHamcrest.argThat(allOf(
-                        hasEntry("vauntLocation", "src/test/resources/vaunt"),
-                        hasEntry("pactsLocation", "src/test/resources/pacts")
+                        hasEntry("vauntLocation", Optional.of("src/test/resources/vaunt")),
+                        hasEntry("pactsLocation", Optional.of("src/test/resources/pacts")),
+                        hasEntry("swaggerLocation", Optional.<String>empty())
                 ))
         );
 

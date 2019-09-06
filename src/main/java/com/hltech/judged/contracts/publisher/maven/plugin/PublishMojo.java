@@ -9,6 +9,7 @@ import org.apache.maven.project.MavenProject;
 
 import java.net.URL;
 import java.util.Arrays;
+import java.util.Optional;
 
 import static com.google.common.collect.ImmutableMap.of;
 
@@ -50,9 +51,9 @@ public class PublishMojo extends AbstractMojo {
                 capabilities,
                 expectations,
                 of(
-                        "swaggerLocation", swaggerLocation,
-                        "pactsLocation", pactsLocation,
-                        "vauntLocation", vauntLocation
+                        "swaggerLocation", Optional.ofNullable(swaggerLocation),
+                        "pactsLocation", Optional.ofNullable(pactsLocation),
+                        "vauntLocation", Optional.ofNullable(vauntLocation)
                 )
         );
     }
