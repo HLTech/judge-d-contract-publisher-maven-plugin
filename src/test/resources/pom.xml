@@ -32,7 +32,6 @@
                     </capabilities>
                     <project implementation="com.hltech.judged.contracts.publisher.maven.plugin.MyProjectStub" />
 
-                    <swaggerLocation>src/test/resources/swagger</swaggerLocation>
                     <pactsLocation>src/test/resources/pacts</pactsLocation>
                     <vauntLocation>src/test/resources/vaunt</vauntLocation>
 
