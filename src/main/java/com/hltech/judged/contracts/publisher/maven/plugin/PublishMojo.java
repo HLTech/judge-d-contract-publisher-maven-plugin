@@ -53,7 +53,7 @@ public class PublishMojo extends AbstractMojo {
                 .withProperty("swaggerLocation", swaggerLocation)
                 .withProperty("pactsLocation", pactsLocation)
                 .withProperty("vauntLocation", vauntLocation)
-                .publish(judgeDLocation);
+                .publishTo(judgeDLocation);
     }
 
 }

@@ -4,7 +4,7 @@
 
     <groupId>com.hltech</groupId>
     <artifactId>judge-d-contract-publisher-maven-plugin</artifactId>
-    <version>0.2.1-SNAPSHOT</version>
+    <version>0.3.0</version>
     <packaging>maven-plugin</packaging>
 
     <name>judge-d-contract-publisher-maven-plugin</name>
