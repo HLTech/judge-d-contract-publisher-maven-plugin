@@ -3,32 +3,22 @@ package com.hltech.judged.contracts.publisher.maven.plugin;
 
 import org.apache.maven.plugin.testing.MojoRule;
 import org.apache.maven.plugin.testing.resources.TestResources;
-import org.apache.maven.project.MavenProject;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.mockito.ArgumentCaptor;
 import org.mockito.BDDMockito;
-import org.mockito.Mock;
-import org.mockito.hamcrest.MockitoHamcrest;
 import org.powermock.api.mockito.PowerMockito;
 import org.powermock.core.classloader.annotations.PrepareForTest;
 import org.powermock.modules.junit4.PowerMockRunner;
 
 import java.io.File;
 import java.net.URL;
-import java.util.Optional;
 
-import static org.hamcrest.CoreMatchers.equalTo;
-import static org.hamcrest.Matchers.allOf;
-import static org.hamcrest.Matchers.hasEntry;
-import static org.hamcrest.collection.ArrayMatching.hasItemInArray;
 import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertThat;
 import static org.junit.Assert.assertTrue;
 
 @RunWith(PowerMockRunner.class)
-@PrepareForTest(PublishMojo.class)
+@PrepareForTest(PublisherPropertiesBuilder.class)
 public class PublishMojoTest extends BDDMockito {
 
     @Rule
@@ -36,9 +26,6 @@ public class PublishMojoTest extends BDDMockito {
 
     @Rule
     public TestResources resources = new TestResources();
-
-    @Mock
-    PublisherAdapter publisherMock;
 
     @Test
     public void shouldPublishContractsWhenExecutingMojo() throws Exception {
@@ -49,26 +36,23 @@ public class PublishMojoTest extends BDDMockito {
         PublishMojo mojo = (PublishMojo) rule.lookupMojo("publish", testPom);
         assertNotNull(mojo);
 
-        PowerMockito.whenNew(PublisherAdapter.class).withNoArguments().thenReturn(publisherMock);
+        PublisherPropertiesBuilder builder = PublisherPropertiesBuilder
+                .forService("project-to-test", "1.0-SNAPSHOT");
+
+        PublisherPropertiesBuilder spy = spy(builder);
+        doNothing().when(spy).publish(eq(new URL("http://localhost:8888")));
+
+        PowerMockito.mockStatic(PublisherPropertiesBuilder.class);
+        PowerMockito
+                .when(PublisherPropertiesBuilder.forService(eq("project-to-test"), eq("1.0-SNAPSHOT")))
+                .thenReturn(spy);
+
         mojo.execute();
 
-        ArgumentCaptor<MavenProject> mavenProjectCaptor = ArgumentCaptor.forClass(MavenProject.class);
-
-        verify(publisherMock).publish(
-                mavenProjectCaptor.capture(),
-                eq(new URL("http://localhost:8888")),
-                MockitoHamcrest.argThat(hasItemInArray("jms")),
-                MockitoHamcrest.argThat(hasItemInArray("rest")),
-                MockitoHamcrest.argThat(allOf(
-                        hasEntry("vauntLocation", Optional.of("src/test/resources/vaunt")),
-                        hasEntry("pactsLocation", Optional.of("src/test/resources/pacts")),
-                        hasEntry("swaggerLocation", Optional.<String>empty())
-                ))
-        );
-
-        assertThat(mavenProjectCaptor.getValue().getArtifactId(), equalTo("project-to-test"));
-        assertThat(mavenProjectCaptor.getValue().getVersion(), equalTo("1.0-SNAPSHOT"));
-
+        verify(spy).withCapabilities(eq("jms"));
+        verify(spy).withExpectations(eq("rest"));
+        verify(spy).withProperty(eq("vauntLocation"), eq("src/test/resources/vaunt"));
+        verify(spy).withProperty(eq("pactsLocation"), eq("src/test/resources/pacts"));
+        verify(spy).withProperty(eq("swaggerLocation"), isNull());
     }
-
 }
