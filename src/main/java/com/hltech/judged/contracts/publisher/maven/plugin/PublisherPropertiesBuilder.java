@@ -44,7 +44,7 @@ class PublisherPropertiesBuilder {
         this.serviceVersion = serviceVersion;
     }
 
-    void publish(URL judgeDLocation) {
+    void publishTo(URL judgeDLocation) {
         Publisher publisher = new Publisher();
         publisher.publish(new PublisherProperties(
                 serviceName,

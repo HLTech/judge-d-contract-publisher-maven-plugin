@@ -40,7 +40,7 @@ public class PublishMojoTest extends BDDMockito {
                 .forService("project-to-test", "1.0-SNAPSHOT");
 
         PublisherPropertiesBuilder spy = spy(builder);
-        doNothing().when(spy).publish(eq(new URL("http://localhost:8888")));
+        doNothing().when(spy).publishTo(eq(new URL("http://localhost:8888")));
 
         PowerMockito.mockStatic(PublisherPropertiesBuilder.class);
         PowerMockito
