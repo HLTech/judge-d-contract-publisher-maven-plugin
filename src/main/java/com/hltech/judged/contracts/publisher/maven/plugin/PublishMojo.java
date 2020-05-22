@@ -10,7 +10,7 @@ import org.apache.maven.project.MavenProject;
 import java.net.URL;
 import java.util.Arrays;
 
-@Mojo(name = "publish")
+@Mojo(name = "publish", inheritByDefault = false, aggregator = true)
 public class PublishMojo extends AbstractMojo {
 
     @Component
