@@ -67,7 +67,7 @@
         <dependency>
             <groupId>com.hltech</groupId>
             <artifactId>judge-d-contract-publisher-core</artifactId>
-            <version>0.1.2</version>
+            <version>0.1.6</version>
         </dependency>
         <dependency>
             <groupId>org.hamcrest</groupId>
