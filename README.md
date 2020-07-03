@@ -25,7 +25,7 @@ If you have multi module maven app then you can add plugin to root pom.xml and s
 
 To publish contracts, run `publish` mojo:
 ```shell script
-./mvnw judge-d-contract-publisher:publish -N 
+./mvnw judge-d-contract-publisher:publish 
   -Dpublish.judgeDLocation=https://judge-d.tech.hl.uk
   -Dpublish.capabilities=rest
   -Dpublish.swaggerLocation=./build/swagger/
