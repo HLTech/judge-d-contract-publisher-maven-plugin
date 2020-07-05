@@ -9,7 +9,7 @@ Add plugin to your pom.xml file:
 <plugin>
     <groupId>com.hltech</groupId>
     <artifactId>judge-d-contract-publisher-maven-plugin</artifactId>
-    <version>0.3.1</version>
+    <version>0.3.2</version>
 </plugin>
 ```
 
@@ -18,7 +18,7 @@ If you have multi module maven app then you can add plugin to root pom.xml and s
 <plugin>
     <groupId>com.hltech</groupId>
     <artifactId>judge-d-contract-publisher-maven-plugin</artifactId>
-    <version>0.3.1</version>
+    <version>0.3.2</version>
     <inherited>false</inherited>
 </plugin>
 ```
